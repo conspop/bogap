@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>  
+
+  <h1 class="text-center"><%= event.courseName %></h1>
+  <h3 class="text-center"><%= event.date.toLocaleDateString() %></h3>
+  <form action=''>
+    <table class="text-center" id="scorecard">
+      <tr>
+        <th>Hole</th>
+        <th>Par</th>
+        <th>Score</th>
+        <th></th>
+        <th>Hole</th>
+        <th>Par</th>
+        <th>Score</th>
+      </tr>
+      <% for (let i = 0; i < 9; i ++) { %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td><%= event.coursePars[i] %></td>
+          <td><input style='<%= (round.scores[i]) ? 'background-color:green' : '' %>' type="number" name=<%= `score${i}` %> value=<%= round.scores[i] %>></td>
+          <td></td>
+          <td><%= i + 9 %></td>
+          <td><%= event.coursePars[i + 9] %></td>
+          <td><input style='<%= (round.scores[i + 9]) ? 'background-color:green' : '' %>' type="number" name=<%= `score${i + 9}` %> value=<%= round.scores[i + 9] %>></td>
+        </tr>
+      <% } %>
+    </table>
+    <button type="submit">Save</button>
+  </form>
+</body>
+</html>

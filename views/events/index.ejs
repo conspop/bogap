@@ -1,0 +1,123 @@
+<%- include('../partials/header') %>  
+<!-- MAIN ACCORDION-->
+<div class="accordion" id="eventsAccordion">
+    <% events.forEach(e => { %>
+      <div class="card text-center">
+        <!-- HEADER -->
+        <div class="card-header" id="heading<%= e._id %>">
+          <h2>
+            <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapse<%= e._id %>" aria-expanded="true" aria-controls="collapse<%= e._id %>">
+              <%= e.courseName %> - <%= e.date.toLocaleDateString()%>
+            </button>
+          </h2>
+        </div>
+        <!-- COLLAPSABLE PART-->
+        <div class="container">
+          <div id="collapse<%= e._id %>" class="collapse" aria-labelledby="heading<%= e._id %>" data-parent="#eventsAccordion">
+            <!-- REGISTRATION ACCORDION -->
+            <div class="accordion" id="registrationAccordion<%= e._id %>">
+              <div class="card">
+                <div class="card-header" id="registrationHeading<%= e._id %>">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#registrationCollapse<%= e._id %>" aria-expanded="true" aria-controls="registrationCollapse<%= e._id %>">
+                      Registration
+                    </button>
+                  </h2>
+                </div>
+                <div id="registrationCollapse<%= e._id %>" class="collapse" aria-labelledby="registrationHeading<%= e._id %>" data-parent="#registrationAccordion<%= e._id %>">
+                  <div class="card-body">
+                    <% if (user.events.includes(e._id)) { %>
+                      <p>You have committed to this round</p>
+                      <form action="/users/<%= user._id %>/events/<%= e._id %>" method="POST">
+                        <button type="submit" class="btn btn-danger">Bail</button>
+                      </form>
+                    <% } else { %>
+                      <form action="/users/<%= user._id %>/events/<%= e._id %>" method="POST">
+                        <p>You have not committed to this round</p>
+                        <button type="submit" class="btn btn-success d-inline-block">Commit</button>
+                      </form>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- DETAILS ACCORDION -->
+            <div class="accordion" id="detailsAccordion<%= e._id %>">
+              <div class="card">
+                <div class="card-header" id="detailsHeading<%= e._id %>">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#detailsCollapse<%= e._id %>" aria-expanded="true" aria-controls="detailsCollapse<%= e._id %>">
+                      Details
+                    </button>
+                  </h2>
+                </div>
+                <div id="detailsCollapse<%= e._id %>" class="collapse" aria-labelledby="detailsHeading<%= e._id %>" data-parent="#detailsAccordion<%= e._id %>">
+                  <div class="card-body">
+                    <table class="table">
+                      <tr>
+                        <th scope="row">Date</td><td><%= e.date.toLocaleDateString() %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Time</td><td><%= e.date.toLocaleTimeString() %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Cost</td><td><%= e.cost %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Details</td><td><%= e.details %></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Address</td><td><%= e.courseAddress %></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ROSTER ACCORDION -->
+            <div class="accordion" id="rosterAccordion<%= e._id %>">
+              <div class="card">
+                <div class="card-header" id="rosterHeading<%= e._id %>">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#rosterCollapse<%= e._id %>" aria-expanded="true" aria-controls="rosterCollapse<%= e._id %>">
+                      Roster
+                    </button>
+                  </h2>
+                </div>
+                <div id="rosterCollapse<%= e._id %>" class="collapse" aria-labelledby="rosterHeading<%= e._id %>" data-parent="#rosterAccordion<%= e._id %>">
+                  <div class="card-body">
+                    Roster will go here
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- SCORECARD ACCORDION -->
+            <div class="accordion" id="scorecardAccordion<%= e._id %>">
+              <div class="card">
+                <div class="card-header" id="scorecardHeading<%= e._id %>">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#scorecardCollapse<%= e._id %>" aria-expanded="true" aria-controls="scorecardCollapse<%= e._id %>">
+                      Scorecard
+                    </button>
+                  </h2>
+                </div>
+                <div id="scorecardCollapse<%= e._id %>" class="collapse" aria-labelledby="scorecardHeading<%= e._id %>" data-parent="#scorecardAccordion<%= e._id %>">
+                  <div class="card-body">
+                    <% if (user.rounds.some(r => r.event.equals(e._id))) { %>
+                      You already have a scorecard going!
+                    <% } else { %>
+                      <form action="/users/<%= user._id %>/events/<%= e._id %>/rounds/new" method="POST">
+                        <button type="submit" class="btn btn-success d-inline-block">Record Score</button>
+                      </form>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</body>
+</html>
