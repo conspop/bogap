@@ -23,4 +23,6 @@ router.get('/logout', function(req, res){
 
 router.post('/:userId/events/:eventId', usersCtrl.addEvent)
 
+router.delete('/:userId/events/:eventId', usersCtrl.removeEvent)
+
 module.exports = router;

@@ -7,6 +7,8 @@ router.get('/users/:userId/events/:eventId/rounds/:roundId', isLoggedIn, roundsC
 
 router.post('/users/:userId/events/:eventId/rounds/new', isLoggedIn, roundsCtrl.createRound);
 
+router.put('/users/:userId/events/:eventId/rounds/:roundId', isLoggedIn, roundsCtrl.updateScorecard);
+
 function isLoggedIn(req, res, next) {
   if ( req.isAuthenticated() ) return next();
   res.redirect('/');

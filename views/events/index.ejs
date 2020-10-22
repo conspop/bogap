@@ -28,7 +28,7 @@
                   <div class="card-body">
                     <% if (user.events.includes(e._id)) { %>
                       <p>You have committed to this round</p>
-                      <form action="/users/<%= user._id %>/events/<%= e._id %>" method="POST">
+                      <form action="/users/<%= user._id %>/events/<%= e._id %>?_method=DELETE" method="POST">
                         <button type="submit" class="btn btn-danger">Bail</button>
                       </form>
                     <% } else { %>
