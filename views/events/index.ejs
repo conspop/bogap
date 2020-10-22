@@ -104,7 +104,7 @@
                 <div id="scorecardCollapse<%= e._id %>" class="collapse" aria-labelledby="scorecardHeading<%= e._id %>" data-parent="#scorecardAccordion<%= e._id %>">
                   <div class="card-body">
                     <% if (user.rounds.some(r => r.event.equals(e._id))) { %>
-                      You already have a scorecard going!
+                      <a href="/users/<%= user._id %>/events/<%= e._id %>/rounds/<%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))]._id %>">Continue Scorecard</a>
                     <% } else { %>
                       <form action="/users/<%= user._id %>/events/<%= e._id %>/rounds/new" method="POST">
                         <button type="submit" class="btn btn-success d-inline-block">Record Score</button>
