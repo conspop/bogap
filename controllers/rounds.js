@@ -5,7 +5,8 @@ const Event = require('../models/event');
 module.exports = {
   createRound,
   scorecard,
-  updateScorecard
+  updateScorecard,
+  standings
 };
 
 function createRound(req, res) {
@@ -44,6 +45,58 @@ function updateScorecard(req, res) {
     round.save(function(err) {
       res.redirect(`/users/${req.params.userId}/events/${req.params.eventId}/rounds/${req.params.roundId}`);
     });
+  });
+}
+
+function standings(req, res) {
+  User.find({}).populate('rounds').exec(function(err, users) {
+    Event.find({}).sort('date').exec(function(err, events) {
+
+      let valuesArray = []
+      let classesArray = []
+
+      //header row
+      let headerValues = ['Name']
+      events.forEach(e => headerValues.push(e.courseNameShort))
+      headerValues.push('Best 4')
+      valuesArray.push(headerValues)
+      classesArray.push([])
+      //user rows
+      users.forEach(u => {
+        //eliminate users with no submitted rounds
+        let userValues = []
+        let userClasses = []
+        let userScores = []
+        if (u.events) {
+          userClasses.push('')
+          events.forEach(e => {
+            let roundScore = u.rounds.find(r => r.event.equals(e._id)).netScore
+            if (roundScore) {
+              userValues.push(roundScore)
+              userScores.push(roundScore)
+            } else {
+              userValues.push('-')
+            }
+          })
+          let bestFour = userScores.slice().sort().slice(0,4)
+          userValues.push(bestFour / bestFour.length)
+
+          valuesArray.push(userValues)
+          classesArray.push(userClasses)
+        }
+      })
+
+
+
+
+
+
+
+
+
+
+      res.render('rounds/standings', { user:req.body, valuesArray, classesArray});
+    });  
   });
 }
 

@@ -6,6 +6,7 @@ const eventSchema = new Schema({
   cost: Number,
   details: String,
   courseName: String,
+  courseNameShort: String,
   courseAddress: String,
   coursePic: String,
   courseRating: Number,

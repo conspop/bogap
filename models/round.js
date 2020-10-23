@@ -5,7 +5,9 @@ const roundSchema = new Schema({
   user: Schema.Types.ObjectId,
   event: Schema.Types.ObjectId,
   scores: [String],
-  handicap: Number
+  handicap: Number,
+  grossScore: Number,
+  netScore: Number
 });
 
 module.exports = mongoose.model('Round', roundSchema);
