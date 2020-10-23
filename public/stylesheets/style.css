@@ -28,3 +28,50 @@
   width:100%;
   font-size:1.2em;
 }
+
+#small-scorecard{
+  width: 100%;
+  table-layout:fixed;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.card-header {
+  background-color: white;
+  border:none;
+  color:black;
+}
+
+.card {
+  border:none;
+}
+
+.btn-link {
+  color:black;
+  text-decoration:none;
+}
+
+.btn-link:hover {
+  color:black;
+  text-decoration:none;
+}
+
+.btn-link:focus {
+  text-decoration:none;
+  outline:none;
+}
+
+.rounds-list {
+  border-bottom: 1px solid grey;
+  border-radius: 0;
+}
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height .15s ease;
+       -o-transition: height .15s ease;
+          transition: height .15s ease;
+}
