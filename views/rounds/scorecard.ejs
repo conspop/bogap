@@ -11,35 +11,36 @@
 </head>
 <body>
   <h1 class="scorecard-title text-center"><%= event.courseName %></h1>
-  <form action='/users/<%= user._id %>/events/<%= event._id %>/rounds/<%= round._id %>?_method=PUT' method="POST">
-    <div class="container text-center">
-      <table id="big-scorecard">
-        <tr>
-          <th>Hole</th>
-          <th>Par</th>
-          <th>Score</th>
-          <th>Hole</th>
-          <th>Par</th>
-          <th>Score</th>
-        </tr>
-        <% for (let i = 0; i < 9; i ++) { %>
+  <div class="scorecard-section">
+    <form action='/users/<%= user._id %>/events/<%= event._id %>/rounds/<%= round._id %>?_method=PUT' method="POST">
+      <div class="container text-center">
+        <table class="table">
           <tr>
-            <th scope="row"><%= i + 1 %></td>
-            <td><%= event.coursePars[i] %></td>
-            <td><input tabindex=<%= i + 1 %> class="<%= (round.scores[i]) ? 'hasScore' : '' %>" type="number" name=<%= `score${i}` %> value=<%= round.scores[i] %>></td>
-            <th scope="row"><%= i + 10 %></td>
-            <td><%= event.coursePars[i + 9] %></td>
-            <td><input tabindex=<%= i + 10 %> class='<%= (round.scores[i + 9]) ? 'hasScore' : '' %>' type="number" name=<%= `score${i + 9}` %> value=<%= round.scores[i + 9] %>></td>
+            <th>Hole</th>
+            <th>Par</th>
+            <th>Score</th>
+            <th>Hole</th>
+            <th>Par</th>
+            <th>Score</th>
           </tr>
-        <% } %>
-      </table>
-      <div class="button-row">
-        <button tabindex=18 class="btn btn-outline-success d-inline-block split-row-3" type="submit">Save</button>
-        <a tabindex=18 href='/events' class="btn btn-outline-primary d-inline-block split-row-3">Submit</a>
-        <a tabindex=18 href='/events' class="btn btn-outline-danger d-inline-block split-row-3">Close</a>
+          <% for (let i = 0; i < 9; i ++) { %>
+            <tr>
+              <th scope="row"><%= i + 1 %></td>
+              <td><%= event.coursePars[i] %></td>
+              <td><input tabindex=<%= i + 1 %> class="<%= (round.scores[i]) ? 'hasScore' : '' %>" type="number" name=<%= `score${i}` %> value=<%= round.scores[i] %>></td>
+              <th scope="row"><%= i + 10 %></td>
+              <td><%= event.coursePars[i + 9] %></td>
+              <td><input tabindex=<%= i + 10 %> class='<%= (round.scores[i + 9]) ? 'hasScore' : '' %>' type="number" name=<%= `score${i + 9}` %> value=<%= round.scores[i + 9] %>></td>
+            </tr>
+          <% } %>
+        </table>
+        <div class="button-row">
+          <button tabindex=18 class="btn btn-outline-success d-inline-block split-row-3" type="submit">Save</button>
+          <a tabindex=18 href='/events' class="btn btn-outline-primary d-inline-block split-row-3">Submit</a>
+          <a tabindex=18 href='/events' class="btn btn-outline-danger d-inline-block split-row-3">Close</a>
+        </div> 
       </div>
-      
-    </div>
-  </form>
+    </form>
+  </div>
 </body>
 </html>

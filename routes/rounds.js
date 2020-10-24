@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var roundsCtrl = require('../controllers/rounds');
-const round = require('../models/round');
 
 router.get('/users/:userId/events/:eventId/rounds/:roundId', isLoggedIn, roundsCtrl.scorecard)
 router.get('/standings', isLoggedIn, roundsCtrl.standings)

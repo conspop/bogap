@@ -21,8 +21,10 @@ router.get('/logout', function(req, res){
   res.redirect('/events');
 });
 
+router.post('/:userId/events/:eventId/ajax', usersCtrl.addEventAjax)
 router.post('/:userId/events/:eventId', usersCtrl.addEvent)
 
+router.delete('/:userId/events/:eventId/ajax', usersCtrl.removeEventAjax)
 router.delete('/:userId/events/:eventId', usersCtrl.removeEvent)
 
 module.exports = router;

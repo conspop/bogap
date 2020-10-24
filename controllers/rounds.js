@@ -80,22 +80,11 @@ function standings(req, res) {
           })
           let bestFour = userScores.slice().sort().slice(0,4)
           userValues.push(bestFour / bestFour.length)
-
           valuesArray.push(userValues)
           classesArray.push(userClasses)
         }
       })
-
-
-
-
-
-
-
-
-
-
-      res.render('rounds/standings', { user:req.body, valuesArray, classesArray});
+      res.render('rounds/standings', { user: req.user, valuesArray, classesArray});
     });  
   });
 }

@@ -1,26 +1,24 @@
-#big-scorecard{
-  width: 100%;
-  table-layout:fixed;
+.scorecard-section{
   margin: 0 auto;
   text-align: center;
   margin-bottom: 30px;
 }
 
-#big-scorecard th {
+.scorecard-section th {
   text-align: center;
   height: 50px;
-  width: 50px;
+  padding: 0;
 }
 
-#big-scorecard td {
+.scorecard-section td {
   text-align: center;
   height: 50px;
-  width: 50px;
+  padding: 0;
 }
 
-#big-scorecard input {
+.scorecard-section input {
   width:50px;
-  height:50px;
+  
   text-align:center;
 }
 
@@ -77,16 +75,22 @@
   color:grey;
 }
 
-.registration-not-committed {
+#commitment.registration-not-committed {
   color: red;
   display:flex;
   justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.3em;
+  text-decoration: none;
 }
 
-.registration-committed {
+#commitment.registration-committed {
   color: green;
   display:flex;
   justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.3em;
+  text-decoration: none;
 }
 
 .roundslist {
@@ -113,4 +117,8 @@
 
 .split-row-3 {
   width: 30%;
+}
+
+.scorecard-section {
+  width: 90%;
 }
