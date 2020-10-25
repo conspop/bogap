@@ -8,8 +8,24 @@
   </li>
 </ul>
 
-<% console.log(valuesArray)%>
-<% console.log(classesArray)%>
+<table class="table text-center">
+  
+  <tr>
+    <% valuesArray[0].forEach(v => { %>
+      <th><%= v %></th>
+    <% }) %>
+  </tr>
+
+  <% for (let i = 1; i < valuesArray.length; i++) { %>
+    <tr>
+      <% valuesArray[i].forEach(v => { %>
+        <td><%= v %></td>
+      <% }) %>
+    </tr>
+  <% } %>
+
+
+</table>
 
 
 

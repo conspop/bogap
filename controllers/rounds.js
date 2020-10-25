@@ -14,6 +14,8 @@ function createRound(req, res) {
     let newRound = new Round({
       event: req.params.eventId,
       handicap: user.handicap,
+      grossScore: null,
+      netScore: null,
       scores:[] 
     });
     newRound.save(function(err, newRound) {
@@ -51,10 +53,8 @@ function updateScorecard(req, res) {
 function standings(req, res) {
   User.find({}).populate('rounds').exec(function(err, users) {
     Event.find({}).sort('date').exec(function(err, events) {
-
       let valuesArray = []
       let classesArray = []
-
       //header row
       let headerValues = ['Name']
       events.forEach(e => headerValues.push(e.courseNameShort))
@@ -70,16 +70,21 @@ function standings(req, res) {
         if (u.events) {
           userClasses.push('')
           events.forEach(e => {
-            let roundScore = u.rounds.find(r => r.event.equals(e._id)).netScore
+            let roundScore = u.rounds.find(r => r.event.equals(e._id))
             if (roundScore) {
-              userValues.push(roundScore)
-              userScores.push(roundScore)
+              if (roundScore.netScore === undefined) {
+                userValues.push('-')
+              } else {
+                userValues.push(roundScore.netScore)
+                userScores.push(roundScore.netScore)
+              }
             } else {
               userValues.push('-')
             }
           })
-          let bestFour = userScores.slice().sort().slice(0,4)
-          userValues.push(bestFour / bestFour.length)
+          let bestFour = (userScores.slice().sort().slice(0,4).reduce((sum, v) => sum + v,0) / 4).toFixed(2)
+          userValues.push(bestFour)
+          userValues.unshift(u.firstName)
           valuesArray.push(userValues)
           classesArray.push(userClasses)
         }
