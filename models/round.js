@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const roundSchema = new Schema({
   user: Schema.Types.ObjectId,
-  event: Schema.Types.ObjectId,
+  event: {type: Schema.Types.ObjectId, ref: 'Event'},
   scores: [String],
   handicap: Number,
   grossScore: Number,

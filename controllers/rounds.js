@@ -6,7 +6,8 @@ module.exports = {
   createRound,
   scorecard,
   updateScorecard,
-  standings
+  standings,
+  submitScorecard
 };
 
 function createRound(req, res) {
@@ -16,7 +17,7 @@ function createRound(req, res) {
       handicap: user.handicap,
       grossScore: null,
       netScore: null,
-      scores:[] 
+      scores:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null] 
     });
     newRound.save(function(err, newRound) {
       user.rounds.push(newRound._id)
@@ -50,6 +51,18 @@ function updateScorecard(req, res) {
   });
 }
 
+function submitScorecard(req, res) {
+  Round.findById(req.params.roundId).populate('event').exec(function(err, round) {
+    let grossScore = round.scores.reduce((sum, s) => sum + parseInt(s), 0)
+    let netScore = grossScore - Math.round((round.handicap * round.event.courseSlope / 113)) 
+    round.grossScore = grossScore
+    round.netScore = netScore
+    round.save(function(err) {
+      res.redirect(`/events`)
+    });
+  });
+}
+
 function standings(req, res) {
   User.find({}).populate('rounds').exec(function(err, users) {
     Event.find({}).sort('date').exec(function(err, events) {
@@ -67,12 +80,13 @@ function standings(req, res) {
         let userValues = []
         let userClasses = []
         let userScores = []
-        if (u.events) {
+        console.log(u.rounds)
+        if (u.rounds.length > 0) {
           userClasses.push('')
           events.forEach(e => {
             let roundScore = u.rounds.find(r => r.event.equals(e._id))
             if (roundScore) {
-              if (roundScore.netScore === undefined) {
+              if (roundScore.netScore === undefined || roundScore.netScore === null) {
                 userValues.push('-')
               } else {
                 userValues.push(roundScore.netScore)
@@ -82,13 +96,16 @@ function standings(req, res) {
               userValues.push('-')
             }
           })
-          let bestFour = (userScores.slice().sort().slice(0,4).reduce((sum, v) => sum + v,0) / 4).toFixed(2)
+          let numScores = (userScores.length < 5) ? userScores.length : 4;
+          let bestFour = (userScores.slice().sort().slice(0,4).reduce((sum, v) => sum + v,0) / numScores).toFixed(2)
           userValues.push(bestFour)
+          // sort by best 4
           userValues.unshift(u.firstName)
           valuesArray.push(userValues)
           classesArray.push(userClasses)
         }
       })
+      valuesArray.sort((a,b) => b[b.length - 1] - a[a.length - 1] )
       res.render('rounds/standings', { user: req.user, valuesArray, classesArray});
     });  
   });

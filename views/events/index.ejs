@@ -73,28 +73,32 @@
             </div>
             <hr>
             <!-- SCORECARD -->
-            <div class="event-section">
-              <% if (user.rounds.some(r => r.event.equals(e._id))) { %>
-                <table class="table table-borderless">
-                  <tr>
-                    <% for (let i = 0; i < 9; i++) { %>
-                      <td><%= (user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i]) ? user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i] : '-' %></td>
-                    <% } %>
-                  </tr>
-                  <tr>
-                    <% for (let i = 9; i < 18; i++) { %>
-                      <td><%= (user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i]) ? user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i] : '-' %></td>
-                    <% } %>
-                  </tr>
-                </table>
-                <a class="btn btn-outline-success d-inline-block  btn-block" href="/users/<%= user._id %>/events/<%= e._id %>/rounds/<%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))]._id %>">Continue Scorecard</a>
-              <% } else { %>
-                <form action="/users/<%= user._id %>/events/<%= e._id %>/rounds/new" method="POST">
-                  <button type="submit" class="btn btn-outline-success d-inline-block btn-block">Start Scorecard</button>
-                </form>
-              <% } %>
-            </div>
-            <hr>
+              <div class="event-section">
+                <% if (user.rounds.some(r => r.event.equals(e._id))) { %>
+                  <table class="table table-borderless">
+                    <tr>
+                      <% for (let i = 0; i < 9; i++) { %>
+                        <td><%= (user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i]) ? user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i] : '-' %></td>
+                      <% } %>
+                    </tr>
+                    <tr>
+                      <% for (let i = 9; i < 18; i++) { %>
+                        <td><%= (user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i]) ? user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i] : '-' %></td>
+                      <% } %>
+                    </tr>
+                  </table>
+                  <% if (!user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].netScore) { %>
+                    <a class="btn btn-outline-success d-inline-block  btn-block" href="/users/<%= user._id %>/events/<%= e._id %>/rounds/<%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))]._id %>">Continue Scorecard</a>
+                  <% } else { %>
+                    Gross: <%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].grossScore %> Net: <%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].netScore %>
+                  <% } %>
+                <% } else { %>
+                  <form action="/users/<%= user._id %>/events/<%= e._id %>/rounds/new" method="POST">
+                    <button type="submit" class="btn btn-outline-success d-inline-block btn-block">Start Scorecard</button>
+                  </form>
+                <% } %>
+              </div>
+              <hr>
           </div>
         </div>
       </div>
