@@ -122,3 +122,23 @@
 .scorecard-section {
   width: 90%;
 }
+
+#welcome {
+  margin-top:100px;
+}
+
+#log-in {
+  margin-top:80px;
+}
+
+@media only screen and (min-width: 600px) {
+  body {
+    width:600px;
+    margin: 0 auto;
+  }
+
+  .navbar {
+    display:flex;
+    justify-content: space-between;
+  }
+}

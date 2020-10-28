@@ -4,7 +4,8 @@ module.exports = {
   addEvent,
   removeEvent,
   addEventAjax,
-  removeEventAjax  
+  removeEventAjax,
+  completeProfile  
 };
 
 function addEvent(req, res) {
@@ -41,4 +42,16 @@ function removeEventAjax(req, res) {
       res.json('ok!')
     })
   })
+}
+
+function completeProfile(req, res) {
+  User.findById(req.params.userId, function(err, user) {
+    user.firstName = req.body.firstName
+    user.lastName = req.body.lastName
+    user.handicap = req.body.handicap
+    user.phone = req.body.phone
+    user.save(function(err) {
+      res.redirect(`/events`)
+    })
+  });
 }

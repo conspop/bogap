@@ -8,7 +8,6 @@ const userSchema = new Schema({
   lastName: String,
   phone: String,
   email: String,
-  pic: String,
   handicap: Number,
   events: [{type: Schema.Types.ObjectId, ref: 'Event'}],
   rounds: [{type: Schema.Types.ObjectId, ref: 'Round'}]
