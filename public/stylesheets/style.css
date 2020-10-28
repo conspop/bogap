@@ -1,3 +1,13 @@
+.event-section ul {
+  padding:25px 0;
+}
+
+li {
+  list-style: none;
+  color: black;
+
+}
+
 .scorecard-section{
   margin: 0 auto;
   text-align: center;
@@ -39,10 +49,12 @@
   background-color: white;
   border:none;
   color:black;
+  padding:0 25px;;
 }
 
 .card {
   border:none;
+  font-weight: 300;
 }
 
 .btn-link {
@@ -93,9 +105,12 @@
   text-decoration: none;
 }
 
-.roundslist {
+.rounds-list {
   display:flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: center;
+  padding:0;
+  margin-bottom:10px;
 }
 
 .subnav {
@@ -141,4 +156,38 @@
     display:flex;
     justify-content: space-between;
   }
+}
+
+.bi-chevron-down {
+  height: 1.7em;
+  width: 1.7em;
+  margin-bottom: .5rem;
+}
+
+.upcoming {
+  padding: 15px;
+  margin-bottom: 25px;
+  background-color: white;
+}
+
+.past {
+  padding: 15px;
+  margin-bottom: 25px;
+  background-color: white;
+}
+
+.title {
+  margin-bottom: 40px;
+}
+
+.middle {
+  width: 50%;
+}
+
+.side {
+  width: 25%;
+}
+
+h5, h4 {
+  font-weight: 400;
 }

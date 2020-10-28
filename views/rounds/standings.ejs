@@ -7,26 +7,22 @@
     <a class="nav-link bg-success active" href="/standings">Standings</a>
   </li>
 </ul>
-
-<table class="table text-center">
-  
-  <tr>
-    <% valuesArray[0].forEach(v => { %>
-      <th><%= v %></th>
-    <% }) %>
-  </tr>
-
-  <% for (let i = 1; i < valuesArray.length; i++) { %>
+<div class='table-responsive'>
+  <table class="table text-center">
+    
     <tr>
-      <% valuesArray[i].forEach(v => { %>
-        <td><%= v %></td>
+      <% valuesArray[0].forEach(v => { %>
+        <th><%= v %></th>
       <% }) %>
     </tr>
-  <% } %>
 
-
-</table>
-
-
-
+    <% for (let i = 1; i < valuesArray.length; i++) { %>
+      <tr>
+        <% valuesArray[i].forEach(v => { %>
+          <td><%= v %></td>
+        <% }) %>
+      </tr>
+    <% } %>
+  </table>
+</div>
 </table>
