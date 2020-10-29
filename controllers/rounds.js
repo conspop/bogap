@@ -29,23 +29,51 @@ function createRound(req, res) {
 };
 
 function scorecard(req, res) {
-  User.findById(req.params.userId, function(err, user) {
-    Event.findById(req.params.eventId, function(err, event) {
-      Round.findById(req.params.roundId, function(err, round) {
-        res.render('rounds/scorecard', { user:req.user, event, round });
-      });
-    });  
-  });
+  Round.findById(req.params.roundId).populate('event').exec(function(err, round) {
+    let currentHole
+    if (round.scores.includes(null)) {
+      currentHole = round.scores.findIndex(s => s === null);
+    } else {
+      currentHole = 'submit'
+    }
+    
+    let scores = round.scores.map(s => {
+      if (s === null) {
+        return ''
+      } else {
+        return s
+      }
+    })
+    let pars = round.event.coursePars.map(p => {
+      return p
+    })
+    let runningTotal = 0
+    let plusMinus = []
+    for (let i = 0; i < 18; i++) {
+      if (scores[i] === '') {
+        console.log('top')
+        plusMinus.push('')
+      } else {
+        let holePlusMinus = parseInt(scores[i]) - parseInt(pars[i])
+        runningTotal += holePlusMinus
+        plusMinus.push(runningTotal)
+      }
+    }
+    console.log(plusMinus)
+    res.render('rounds/scorecard', { user:req.user, scores, pars, plusMinus, round, currentHole });
+  }); 
 }
 
 function updateScorecard(req, res) {
   Round.findById(req.params.roundId, function(err, round) {
-    let newScores = new Array(18)
-    for (let i = 0; i < 18; i++) {
-      newScores[i] = (req.body[`score${i}`]) ? req.body[`score${i}`] : null
-    }
-    round.scores = newScores
+    console.log('got here')
+    console.log(req.body.currentHoleId)
+    console.log(req.body.score)
+    round.scores.set(req.body.currentHoleId, req.body.score.toString())
+    console.log(round.scores)
+    console.log(round)
     round.save(function(err) {
+      console.log(err)
       res.redirect(`/users/${req.params.userId}/events/${req.params.eventId}/rounds/${req.params.roundId}`);
     });
   });
