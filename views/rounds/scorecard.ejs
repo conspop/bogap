@@ -55,6 +55,23 @@
           <button class='scorecard-record-button' type='submit'>Submit</button>
         </form>
       <% } %>
+      <a href="/events">Close</a>
+    </div>
+    <div class='leaderboard-section'>
+      <table class="table table-borderless table-sm leaderboard">
+        <tr>
+          <th></th>
+          <th>+/-</th>
+          <th>thru</th>
+        </tr>
+        <% leaderboard.forEach(l => { %>
+          <tr>
+            <td><%= l[0] %></td>
+            <td><%= l[1] %></td>
+            <td><%= l[2] %></td>
+          </tr>
+        <% }) %>
+      </table>
     </div>
 </body>
 </html>

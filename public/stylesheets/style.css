@@ -256,3 +256,9 @@ h6, h5, h4 {
   background-color: white;
   text-align: center;
 }
+
+.leaderboard {
+  margin: 0 auto;
+  width:50%;
+  text-align: center;
+}

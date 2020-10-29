@@ -30,37 +30,65 @@ function createRound(req, res) {
 
 function scorecard(req, res) {
   Round.findById(req.params.roundId).populate('event').exec(function(err, round) {
-    let currentHole
-    if (round.scores.includes(null)) {
-      currentHole = round.scores.findIndex(s => s === null);
-    } else {
-      currentHole = 'submit'
-    }
-    
-    let scores = round.scores.map(s => {
-      if (s === null) {
-        return ''
+    User.find({}).populate('rounds').exec(function(err, users) {
+      //determine currentHole
+      let currentHole
+      if (round.scores.includes(null)) {
+        currentHole = round.scores.findIndex(s => s === null);
       } else {
-        return s
+        currentHole = 'submit'
       }
-    })
-    let pars = round.event.coursePars.map(p => {
-      return p
-    })
-    let runningTotal = 0
-    let plusMinus = []
-    for (let i = 0; i < 18; i++) {
-      if (scores[i] === '') {
-        console.log('top')
-        plusMinus.push('')
-      } else {
-        let holePlusMinus = parseInt(scores[i]) - parseInt(pars[i])
-        runningTotal += holePlusMinus
-        plusMinus.push(runningTotal)
+      //create scores array
+      let scores = round.scores.map(s => {
+        if (s === null) {
+          return ''
+        } else {
+          return s
+        }
+      })
+      //create pars array
+      let pars = round.event.coursePars.map(p => {
+        return p
+      })
+      //create plusMinus array
+      let runningTotal = 0
+      let plusMinus = []
+      for (let i = 0; i < 18; i++) {
+        if (scores[i] === '') {
+          console.log('top')
+          plusMinus.push('')
+        } else {
+          let holePlusMinus = parseInt(scores[i]) - parseInt(pars[i])
+          runningTotal += holePlusMinus
+          plusMinus.push(runningTotal)
+        }
       }
-    }
-    console.log(plusMinus)
-    res.render('rounds/scorecard', { user:req.user, scores, pars, plusMinus, round, currentHole });
+      //create leaderboard array
+      let eventId = req.params.eventId
+      let leaderboard = []
+      users.forEach(u => u.rounds.forEach(r => {
+        console.log(r.event, eventId)
+        if (r.event.equals(eventId)) {
+          let currentHole
+          if (r.scores.includes(null)) {
+            currentHole = r.scores.findIndex(s => s === null);
+          } else {
+            currentHole = '18'
+          }
+          let plusMinus = 0
+          for (let i = 0; i < 18; i++) {
+            if (r.scores[i] === null) {
+              break;
+            } else {
+              plusMinus += (parseInt(r.scores[i]) - parseInt(pars[i]))
+            }
+          }
+          leaderboard.push([u.firstName, plusMinus, currentHole]);
+        }
+      }))
+      leaderboard.sort((a, b) => a[1] - b[1])
+      res.render('rounds/scorecard', { user:req.user, plusMinus, scores, pars, round, currentHole, leaderboard });
+    });     
   }); 
 }
 
