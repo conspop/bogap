@@ -45,19 +45,18 @@ function getRecorded(allUsers, events) {
       if (recorded[e._id]) {
         if (u.rounds.findIndex(r => r.event.equals(e._id)) > -1) {
           if (u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore !== null) {
-            recorded[e._id].push([u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore])  
+            recorded[e._id].push([u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].handicap, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore])  
           } 
         }
       } else {
         if (u.rounds.findIndex(r => r.event.equals(e._id)) > -1) {
           if (u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore !== null) {
-            recorded[e._id] = [[ u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore ]]
+            recorded[e._id] = [[u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].handicap, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore]]
           }    
         }
       }
     })
   })
-  console.log(recorded)
   return recorded
 }
 
