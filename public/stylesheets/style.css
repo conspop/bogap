@@ -1,13 +1,3 @@
-.event-section ul {
-  padding:25px 0;
-}
-
-li {
-  list-style: none;
-  color: black;
-
-}
-
 .scorecard-section{
   margin: 0 auto;
   text-align: center;
@@ -16,20 +6,8 @@ li {
 
 .scorecard-section th {
   text-align: center;
-  height: 50px;
   padding: 0;
-}
-
-.scorecard-section td {
-  text-align: center;
-  height: 50px;
-  padding: 0;
-}
-
-.scorecard-section input {
   width:50px;
-  
-  text-align:center;
 }
 
 #big-scoreboard-btn {
@@ -90,7 +68,7 @@ li {
 #commitment.registration-not-committed {
   color: red;
   display:flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   font-size: 1.3em;
   text-decoration: none;
@@ -99,7 +77,7 @@ li {
 #commitment.registration-committed {
   color: green;
   display:flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   font-size: 1.3em;
   text-decoration: none;
@@ -190,4 +168,67 @@ li {
 
 h6, h5, h4 {
   font-weight: 400;
+}
+
+.committed-names ul {
+  padding: 0;
+  margin: 25px 0 30px 0;
+}
+
+.committed-names li {
+  list-style: none;
+  color: black;
+  font-size: 18px;
+}
+
+.show {
+  margin-bottom: 40px;
+}
+
+#others {
+  font-weight:500;
+}
+
+.bi {
+  margin-right:10px;
+}
+
+.scorecard-record {
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 50px 50px;
+}
+
+.scorecard-record-hole {
+  grid-column-start: 1;
+  grid-column-end: span 1;
+  grid-row-start: 1;
+  grid-row-end: span 1;
+  align-self: center;
+  margin:0;
+}
+
+.scorecard-record-par {
+  grid-column-start: 1;
+  grid-column-end: span 1;
+  grid-row-start: 2;
+  grid-row-end: span 1;
+  align-self: center;
+  margin:0;
+}
+
+.scorecard-record-input {
+  grid-column-start: 2;
+  grid-column-end: span 1;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+  width:100px;
+}
+
+.scorecard-record-button {
+  grid-column-start: 3;
+  grid-column-end: span 1;
+  grid-row-start: 1;
+  grid-row-end: span 2;
+  width:100px;
 }

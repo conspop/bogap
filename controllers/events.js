@@ -8,7 +8,7 @@ module.exports = {
 };
 
 function index(req, res) {
-  User.find({}).populate('rounds').exec(function(err, allUsers){
+  User.find({ _id: { $nin: [req.user._id]}}).populate('rounds').exec(function(err, allUsers){
     Event.find({}).sort('date').exec(function(err, events) {
       User.findById(req.user._id).populate('rounds').exec(function(err, user) {
         let committed = getCommitted(allUsers);
