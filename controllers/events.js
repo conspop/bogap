@@ -8,10 +8,10 @@ module.exports = {
 };
 
 function index(req, res) {
-  User.find({ _id: { $nin: [req.user._id]}}).populate('rounds').exec(function(err, allUsers){
+  User.find({}).populate('rounds').exec(function(err, allUsers){
     Event.find({}).sort('date').exec(function(err, events) {
       User.findById(req.user._id).populate('rounds').exec(function(err, user) {
-        let committed = getCommitted(allUsers);
+        let committed = getCommitted(allUsers, user);
         let recorded = getRecorded(allUsers, events);
         let utcDate = new Date()
         res.render('events/index', { events, user, utcDate, committed, recorded });
@@ -20,14 +20,18 @@ function index(req, res) {
   })  
 };
 
-function getCommitted(allUsers) {
+function getCommitted(allUsers, user) {
   let committed = {}
   allUsers.forEach(u => {
     u.events.forEach(e => {
       if (committed[e]) {
-        committed[e].push(u.firstName)  
+        if (!u.equals(user)) {
+          committed[e].push(u.firstName)  
+        }
       } else {
-        committed[e] = [u.firstName]
+        if (!u.equals(user)) {
+          committed[e] = [u.firstName] 
+        }
       }
     })
   })
@@ -40,15 +44,20 @@ function getRecorded(allUsers, events) {
     events.forEach(e => {
       if (recorded[e._id]) {
         if (u.rounds.findIndex(r => r.event.equals(e._id)) > -1) {
-          recorded[e._id].push([u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore])  
+          if (u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore !== null) {
+            recorded[e._id].push([u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore])  
+          } 
         }
       } else {
         if (u.rounds.findIndex(r => r.event.equals(e._id)) > -1) {
-          recorded[e._id] = [[ u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore ]]
+          if (u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore !== null) {
+            recorded[e._id] = [[ u.firstName, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].grossScore, u.rounds[u.rounds.findIndex(r => r.event.equals(e._id))].netScore ]]
+          }    
         }
       }
     })
   })
+  console.log(recorded)
   return recorded
 }
 

@@ -38,6 +38,11 @@ function scorecard(req, res) {
       } else {
         currentHole = 'submit'
       }
+      //determine submitted
+      let submitted = false
+      if (round.grossScore !== null) {
+        submitted = true
+      }
       //create scores array
       let scores = round.scores.map(s => {
         if (s === null) {
@@ -55,7 +60,6 @@ function scorecard(req, res) {
       let plusMinus = []
       for (let i = 0; i < 18; i++) {
         if (scores[i] === '') {
-          console.log('top')
           plusMinus.push('')
         } else {
           let holePlusMinus = parseInt(scores[i]) - parseInt(pars[i])
@@ -67,7 +71,6 @@ function scorecard(req, res) {
       let eventId = req.params.eventId
       let leaderboard = []
       users.forEach(u => u.rounds.forEach(r => {
-        console.log(r.event, eventId)
         if (r.event.equals(eventId)) {
           let currentHole
           if (r.scores.includes(null)) {
@@ -87,21 +90,15 @@ function scorecard(req, res) {
         }
       }))
       leaderboard.sort((a, b) => a[1] - b[1])
-      res.render('rounds/scorecard', { user:req.user, plusMinus, scores, pars, round, currentHole, leaderboard });
+      res.render('rounds/scorecard', { user:req.user, submitted, plusMinus, scores, pars, round, currentHole, leaderboard });
     });     
   }); 
 }
 
 function updateScorecard(req, res) {
   Round.findById(req.params.roundId, function(err, round) {
-    console.log('got here')
-    console.log(req.body.currentHoleId)
-    console.log(req.body.score)
     round.scores.set(req.body.currentHoleId, req.body.score.toString())
-    console.log(round.scores)
-    console.log(round)
     round.save(function(err) {
-      console.log(err)
       res.redirect(`/users/${req.params.userId}/events/${req.params.eventId}/rounds/${req.params.roundId}`);
     });
   });
@@ -136,7 +133,6 @@ function standings(req, res) {
         let userValues = []
         let userClasses = []
         let userScores = []
-        console.log(u.rounds)
         if (u.rounds.length > 0) {
           userClasses.push('')
           events.forEach(e => {

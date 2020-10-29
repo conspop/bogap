@@ -1,12 +1,10 @@
 .scorecard-section{
   margin: 0 auto;
   text-align: center;
-  margin-bottom: 30px;
+  margin: 30px auto;
 }
 
 .scorecard-section th {
-  text-align: center;
-  padding: 0;
   width:50px;
 }
 
@@ -189,7 +187,7 @@ h6, h5, h4 {
   font-weight:500;
 }
 
-.bi {
+.event-section .bi {
   margin-right:10px;
 }
 
@@ -206,6 +204,8 @@ h6, h5, h4 {
   grid-row-end: span 1;
   align-self: center;
   margin:0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .scorecard-record-par {
@@ -215,6 +215,8 @@ h6, h5, h4 {
   grid-row-end: span 1;
   align-self: center;
   margin:0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .scorecard-record-input {
@@ -222,7 +224,14 @@ h6, h5, h4 {
   grid-column-end: span 1;
   grid-row-start: 1;
   grid-row-end: span 2;
-  width:100px;
+  width:80px;
+  height: 80%;
+  font-size:30px;
+  text-align: center;
+  justify-self:center;
+  border: 2px solid green;
+  align-self: center;
+  color: green;
 }
 
 .scorecard-record-up {
@@ -232,6 +241,7 @@ h6, h5, h4 {
   grid-row-end: span 1;
   align-self: center;
   margin:0;
+  color:red;
 }
 
 .scorecard-record-down {
@@ -241,6 +251,12 @@ h6, h5, h4 {
   grid-row-end: span 1;
   align-self: center;
   margin:0;
+  color:green;
+}
+
+.updown {
+  width: 25px;
+  height: 25px;
 }
 
 .scorecard-record-button {
@@ -248,7 +264,13 @@ h6, h5, h4 {
   grid-column-end: span 1;
   grid-row-start: 1;
   grid-row-end: span 2;
-  width:100px;
+  width:80px;
+  height: 80%;
+  align-self: center;
+  justify-self: center;
+  background:white;
+  border: 2px solid blue;
+  color:blue;
 }
 
 .scorecard-record-input:disabled {
@@ -261,4 +283,13 @@ h6, h5, h4 {
   margin: 0 auto;
   width:50%;
   text-align: center;
+  font-size:20px;
+}
+
+#closebutton {
+  display:block;
+  color:red;
+  padding: 25px;
+  width: 30px;
+  height: 30px;
 }

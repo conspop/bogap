@@ -34,7 +34,6 @@
                 <!-- COMMITMENT-->
                 <% if (e.date > utcDate) { %>
                   <div class='event-section'>
-                    <% console.log(user.events.includes(e._id) ) %>
                     <% if (!user.events.includes(e._id)) { %>
                       <div data-user='<%= user._id %>' data-event='<%= e._id %>' id="commitment" class="registration-not-committed">
                         <svg width="1.2em" height="1.2em" viewBox="0 0 16 16" class="bi bi-calendar-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -97,70 +96,60 @@
   <div class="container past">
     <h2 class="text-center title">Past Events</h2>
     <% events.forEach(e => { %>
-          <% if (e.date < utcDate) { %>
-            <div class="card text-center">
-              <!-- HEADER -->
-              <div class="card-header " id="heading<%= e._id %>">
-                <button class="rounds-list btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapse<%= e._id %>" aria-expanded="true" aria-controls="collapse<%= e._id %>">
-                  <h5 class="side"><%= e.date.toLocaleDateString('en-CA',{month:'short', day:'numeric'}) %></h5>
-                  <h4 class="middle"><%= e.courseName %></h4>       
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down side" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-                  </svg>
-                </button>
+      <% if (e.date < utcDate) { %>
+        <div class="card text-center">
+          <!-- HEADER -->
+          <div class="card-header " id="heading<%= e._id %>">
+            <button class="rounds-list btn btn-link btn-block text-center" type="button" data-toggle="collapse" data-target="#collapse<%= e._id %>" aria-expanded="true" aria-controls="collapse<%= e._id %>">
+              <h5 class="side"><%= e.date.toLocaleDateString('en-CA',{month:'short', day:'numeric'}) %></h5>
+              <h4 class="middle"><%= e.courseName %></h4>       
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down side" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </button>
+          </div>
+          <!-- COLLAPSABLE PART-->
+          <div class="container">
+            <div id="collapse<%= e._id %>" class="collapse" aria-labelledby="heading<%= e._id %>" data-parent="#eventsAccordion">
+              <hr>
+              <!-- SCORECARD -->
+              <div class="event-section">
+                <% if (user.rounds.some(r => r.event.equals(e._id))) { %>
+                  <% if (!user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].netScore) { %>
+                    <a class="btn btn-outline-success d-inline-block  btn-block" href="/users/<%= user._id %>/events/<%= e._id %>/rounds/<%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))]._id %>">Continue Scorecard</a>
+                  <% } else { %>
+                    <a class="btn btn-outline-success d-inline-block  btn-block" href="/users/<%= user._id %>/events/<%= e._id %>/rounds/<%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))]._id %>">View Submitted Scorecard</a>
+                    <% } %>  
+                <% } else { %>
+                  <form action="/users/<%= user._id %>/events/<%= e._id %>/rounds/new" method="POST">
+                    <button type="submit" class="btn btn-outline-success d-inline-block btn-block">Start Scorecard</button>
+                  </form>
+                <% } %>
               </div>
-              <!-- COLLAPSABLE PART-->
-              <div class="container">
-                <div id="collapse<%= e._id %>" class="collapse" aria-labelledby="heading<%= e._id %>" data-parent="#eventsAccordion">
-                  <hr>
-                  <!-- SCORECARD -->
-                  <% if (e.date < utcDate) { %>
-                    <div class="event-section">
-                      <% if (user.rounds.some(r => r.event.equals(e._id))) { %>                
-                        <table class="table">
-                          <tr>
-                            <% for (let i = 0; i < 9; i++) { %>
-                              <td><%= (user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i]) ? user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i] : '-' %></td>
-                            <% } %>
-                          </tr>
-                          <tr>
-                            <% for (let i = 9; i < 18; i++) { %>
-                              <td><%= (user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i]) ? user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].scores[i] : '-' %></td>
-                            <% } %>
-                          </tr>
-                        </table>
-                        <table class="table">
-                          <tr>
-                            <th></th>
-                            <th>Gross</th>
-                            <th>Net</th>
-                          </tr>
-                          <% if (recorded[e.id]) { %>
-                              <% recorded[e._id].forEach(r => { %>
-                                <tr>
-                                  <td><%= r[0] %></td>
-                                  <td><%= r[1] %></td>
-                                  <td><%= r[2] %></td>
-                                </tr>
-                              <% }) %>    
-                          <% } %>
-
-                        </table>
-                        <% if (!user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))].netScore) { %>
-                          <a class="btn btn-outline-success d-inline-block  btn-block" href="/users/<%= user._id %>/events/<%= e._id %>/rounds/<%= user.rounds[user.rounds.findIndex(r => r.event.equals(e._id))]._id %>">Continue Scorecard</a>
-                        <% } %>
-                      <% } else { %>
-                        <form action="/users/<%= user._id %>/events/<%= e._id %>/rounds/new" method="POST">
-                          <button type="submit" class="btn btn-outline-success d-inline-block btn-block">Start Scorecard</button>
-                        </form>
-                      <% } %>
-                    </div>
-                    <hr>
-                  <% } %>
+              <div class="event section">
+                <div class='leaderboard-section'>
+                  <table class="table table-borderless table-sm leaderboard">
+                    <tr>
+                      <th></th>
+                      <th>Gross</th>
+                      <th>Net</th>
+                    </tr>
+                    <% console.log(recorded) %>
+                    <% recorded[e._id].forEach(r => { %>
+                      <tr>
+                        <td><%= r[0] %></td>
+                        <td><%= r[1] %></td>
+                        <td><%= r[2] %></td>
+                      </tr>
+                    <% }) %>
+                  </table>
                 </div>
               </div>
+              <hr>
             </div>
-          <% } %>
+          </div>
+        </div>
+      <% } %>
     <% }) %>
   </div>
   </div>
