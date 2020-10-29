@@ -94,7 +94,7 @@
     <% }) %>
   </div>
   <div class="container past">
-    <h2 class="text-center title">Past Events</h2>
+    <h2 class="text-center title">Current/Past Events</h2>
     <% events.forEach(e => { %>
       <% if (e.date < utcDate) { %>
         <div class="card text-center">
@@ -126,26 +126,30 @@
                   </form>
                 <% } %>
               </div>
-              <div class="event section">
-                <div class='leaderboard-section'>
-                  <table class="table table-borderless table-sm leaderboard">
-                    <tr>
-                      <th></th>
-                      <th>Gross</th>
-                      <th>Net</th>
-                    </tr>
-                    <% console.log(recorded) %>
-                    <% recorded[e._id].forEach(r => { %>
-                      <tr>
-                        <td><%= r[0] %></td>
-                        <td><%= r[1] %></td>
-                        <td><%= r[2] %></td>
-                      </tr>
-                    <% }) %>
-                  </table>
-                </div>
-              </div>
               <hr>
+              <% if (Object.keys(recorded).length) { %>
+                <div class="event section">
+                  <div class='leaderboard-section'>
+                    <table class="table table-borderless table-sm leaderboard">
+                      <tr>
+                        <th></th>
+                        <th>Gross</th>
+                        <th>Net</th>
+                      </tr>
+                      <% console.log(recorded) %>
+                        <% recorded[e._id].forEach(r => { %>
+                          <tr>
+                            <td><%= r[0] %></td>
+                            <td><%= r[1] %></td>
+                            <td><%= r[2] %></td>
+                          </tr>
+                        <% }) %>
+                      
+                    </table>
+                  </div>
+                </div>
+              <hr>
+              <% } %>
             </div>
           </div>
         </div>
