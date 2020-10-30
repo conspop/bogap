@@ -240,6 +240,7 @@ h6, h5, h4 {
   border: 2px solid green;
   align-self: center;
   color: green;
+  border-radius: 12px;
 }
 
 .scorecard-record-up {
@@ -278,12 +279,8 @@ h6, h5, h4 {
   justify-self: center;
   background:white;
   border: 2px solid blue;
+  border-radius: 12px;
   color:blue;
-}
-
-.scorecard-record-input:disabled {
-  border: 1px solid black;
-  background-color: white;
   text-align: center;
 }
 
